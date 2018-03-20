@@ -1,97 +1,105 @@
-import java.util.Iterator;
+//import javax.xml.soap.Node;
+//import javax.xml.soap.Node;
+
 /**
  * @author Marcos Gutierrez				17909
  * @author Raul Monzon					17014
  * Clase que implementa el BinaryTree
+ * @link https://algorithms.tutorialhorizon.com/binary-search-tree-complete-implementation/
  */
-public class BinaryTree<E>{
-	protected E val; /*value associated with node*/
-	protected BinaryTree<E> parent; /*parent of node*/
-	protected BinaryTree<E> left, right; /*children of node*/
+public class BinaryTree<K extends Comparable<K>, V> {
+	/*le damos valor al nodo*/
+	public Node<K,V> root;
 	
-	/*post: constructor that generates an empty node */
+	/*Constructor de la clase BinaryTree*/
 	public BinaryTree() {
-		val = null;
-		parent = null;
-		left = right = this;
+		this.root = null;
 	}
 	
-	/*post: return a tree referencing value and two empty subtrees*/
-	public BinaryTree(E value) {
-		val = value;
-		right = left = new BinaryTree<E>();
-		setLeft(left);
-		setRight(right);
+	/**
+	 * @param key
+	 * @return
+	 * Busca si hay una llave dentro del arbol, si encuentre de vuelve valor de llave
+	 */
+	public V find(K key) {
+		Node<K,V> data = root;
+		/*Ciclo para recorrer lso datos de la raiz*/
+		while(data != null) {
+			/*Compara las palabras con la llave*/
+			int comparation = data.datos.compareTo(key);
+			if(comparation == 0) {
+				return data.datos.getValue();
+			} else if(comparation > 0) {
+				/*datos de la */
+				data = data.left;
+			} else {
+				data = data.right;
+			}
+		}
+		return null;
 	}
 	
-	/*post: return a tree referencing value and two subtrees*/
-	public BinaryTree(E value, BinaryTree<E> left, BinaryTree<E> right) {
-		val = value;
-		if(left == null) {left = new BinaryTree<E>();}
-		setLeft(left);
-		if(right == null) { right = new BinaryTree<E>(); }
-		setRight(right);
-	}
-	
-	/*post: returns reference to (possibly empty) left subtree*/
-	public BinaryTree<E> left(){
-		return left;
-	}
-	
-	/*post: returns reference to parent node, or null*/
-	public BinaryTree<E> parent(){
-		return parent;
-	}
-	
-	/*post: sets left subtree to newLeft*/
-	/*re-parents newLeftT if not null*/
-	public void setLeft(BinaryTree<E> newLeft) {
-		if(isEmpty()) return;
-		if(left != null && left.parent() == this) left.setParent(null);
-		left = newLeft;
-		newLeft.setParent(this);
-	}
-	
-	/*post: sets left subtree to newRight*/
-	/*re-parents newRight if not null*/
-	public void setRight(BinaryTree<E> newRight) {
-		if(isEmpty()) return;
-		if(right != null && right.parent == this) right.setParent(null);
-		right = newRight;
-		newRight.setParent(this);
-	}
-	
-	/*post: re-parents this node to parent reference, or null*/
-	protected void setParent(BinaryTree<E> newParent) {
-		if(isEmpty()) {
-			parent = newParent;
+	/**
+	 * Agreaga nuevos vertices al arbol
+	 * @param key
+	 * @param value
+	 */
+	public void insert(K key, V value) {
+		/*Nuevos nodos para la evaluacion*/
+		Node<K,V> nNode = new Node<K,V>(key, value);
+		if(root == null) {
+			root = nNode;
+			return;
+		}
+		
+		Node<K,V> data = root;
+		Node<K,V> parent = null;
+		/*Ciclo para recorrer el arbol*/
+		while(true) {
+			parent = data;
+			int comparation = data.datos.compareTo(key);
+			if(comparation > 0) {
+				data = data.left;
+				if(data == null) {
+					parent.left = nNode;
+					return;
+				}
+			} else {
+				data = data.right;
+				if(data == null) {
+					parent.right = nNode;
+					return;
+				}
+			}
 		}
 	}
 	
-	/*post: return an in-order iterator of elements*/
-	public Iterator<E> iterator() { return null;}
-	
-	/*post: return true if this is a left child of parents*/
-	public boolean isLeftChild() {
-		if(parent != null) {
-			BinaryTree<E> left = parent.left();
-			return this == left;
+	/**
+	 * Metodo para recorrer el arbol binario
+	 * @param root
+	 */
+	public void display(Node<K,V> root) {
+		if(root != null) {
+			display(root.left);
+			System.out.print(root.datos.toString());
+			display(root.right);
 		}
-		return false;
 	}
 	
-	/*post: return value associated with this node*/
-	public E value() {
-		return val;
-	}
+/*Clase Nodos modificada para la asociacion entre palabras
+ * @param <K>
+ * @param <V>
+ */
+class Node<K extends Comparable<K>,V>{
+	Association<K,V> datos;
+	Node<K,V> left;
+	Node<K,V> right;
 	
-	/*post: sets te value associated with this node*/
-	public void setValue(E value) {
-		val = value;
+	/*Clase para la asociacion*/
+	public Node(K key, V value) {
+		datos = new Association<K,V>(key, value);
+		left = null;
+		right = null;
 	}
-	
-	/*post: if node is empty*/
-	protected boolean isEmpty() {
-		return val == null;
-	}
+}
 }

@@ -53,7 +53,7 @@ public class Association<K extends Comparable<K>, V> implements Map.Entry<K,V> {
 	 * @param o
 	 * @return o.getKey();
 	 */
-	public int compareTo(Association<K,V> o) {
-		return key.compareTo(o.getKey());
+	public int compareTo(K key) {
+		return key.compareTo(key);
 	}
 }
