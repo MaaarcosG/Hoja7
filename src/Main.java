@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,7 +56,7 @@ public class Main {
 				/*Separamos las lineas del archivo para lograr hacer la asociacion*/
 				for(int i = 0; i<diccionario.size(); i++) {
 					String datos = diccionario.get(i).substring(i, diccionario.get(i).length() - 1);
-					String[] unicornio = datos.split(", ");
+					String[] unicornio = datos.split("");
 					palabra.insert(unicornio[0], unicornio[1]);
 				}
 			} catch(Exception e) {
@@ -82,8 +83,6 @@ public class Main {
 
             }
         }
-
-
         try
         {
             BufferedReader informacion = new BufferedReader(new FileReader(dirrección));  // Abre documento para su lectura
@@ -93,7 +92,7 @@ public class Main {
             String textoATraducir = rawText.toLowerCase();
             informacion.close();  // Se finaliza el lector
             System.out.println("El texto Originas es: \n" + textoATraducir);
-            String wIngles, wEspanol;
+            String wIngles, wEspanol;	
             StringTokenizer st = new StringTokenizer (textoATraducir);
 
             /* traduce las palabras*/

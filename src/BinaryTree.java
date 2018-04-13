@@ -1,3 +1,4 @@
+
 //import javax.xml.soap.Node;
 //import javax.xml.soap.Node;
 
@@ -6,6 +7,7 @@
  * @author Raul Monzon					17014
  * Clase que implementa el BinaryTree
  * @link https://algorithms.tutorialhorizon.com/binary-search-tree-complete-implementation/
+ * @link https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
  */
 public class BinaryTree<K extends Comparable<K>, V> {
 	/*le damos valor al nodo*/
